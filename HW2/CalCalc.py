@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import argparse
 parser = argparse.ArgumentParser(description='CalCalc Application')
 parser.add_argument('command_string', help='This is the (required) command string')
@@ -32,14 +34,22 @@ results = parser.parse_args()
 #print 'const_collection =', results.const_collection
 is_dangerous = ('os.' in results.command_string) or ('__' in results.command_string)
 
-if is_dangerous:
-    print "OS or Built-In commands are not allowed!"
-else:
-    print 'Your command was (via program direct):', results.command_string
+#if is_dangerous:
+#    print "OS or Built-In commands are not allowed!"
+#else:
+#    print 'Your command was (via program direct):', results.command_string
+
 
 
 def calculate(command_string):
     if is_dangerous:
         print "OS or Built-In commands are not allowed!"
     else:
-        return 'Your command was (via function cal):', command_string
+        try:
+            result = eval(command_string)
+            print result
+        except:
+            print "Need to add WolframAlpha API here"
+
+if __name__ == '__main__':
+    calculate(results.command_string)
