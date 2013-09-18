@@ -6,7 +6,7 @@ def calculate(command_string, use_wolfram=False):
         query_address = 'http://api.wolframalpha.com/v2/query?input=' + \
         urllib2.quote(wolf_string).replace('/','%2F') + \
         '&appid=UAGAWR-3X6Y8W777Q'
-        print '\nTalking to Wolfram Alpha, please wait...\n'
+        print '\tTalking to Wolfram Alpha, please wait...\n'
         search_data = urllib2.urlopen(query_address).read()
         if "<queryresult success='true'" in search_data: # search was successful
             search_start = search_data.find("<pod title='Input")
@@ -28,7 +28,7 @@ def calculate(command_string, use_wolfram=False):
                 result = eval(str(command_string))
                 print result
             except:
-                print "I don't know the answer to this question, so let's try Wolfram Alpha."
+                print "I don't know the answer to this question, so let's ask Wolfram Alpha."
                 wolf_search(str(command_string))
                 
         else: # use the interwebz
