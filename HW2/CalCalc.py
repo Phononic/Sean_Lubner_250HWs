@@ -1,3 +1,7 @@
+#==============================================================================
+# Main Functions
+#==============================================================================
+
 def calculate(command_string, use_wolfram=False):
     """ Evaluates command_string and prints the result, if it is safe to do so"""
     
@@ -14,6 +18,7 @@ def calculate(command_string, use_wolfram=False):
             result_start = search_data[search_start:].find("<plaintext>")+search_start+11
             result_end = search_data[search_start:].find("</plaintext>")+search_start
             print 'From Wolfram Alpha:', search_data[result_start:result_end]
+            return search_data[result_start:result_end]
         else:
             print "Wolfram Alpha did not understand your question."
         
@@ -27,13 +32,23 @@ def calculate(command_string, use_wolfram=False):
             try:
                 result = eval(str(command_string))
                 print result
+                return result
             except:
                 print "I don't know the answer to this question, so let's ask Wolfram Alpha."
                 wolf_search(str(command_string))
                 
         else: # use the interwebz
             wolf_search(str(command_string))
-            
+
+#==============================================================================
+# Tests
+#==============================================================================
+def test_1():
+    assert abs(64.0 - calculate('8**2')) < .001
+
+#==============================================================================
+# Command Line Parsing
+#==============================================================================
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='CalCalc Application')
