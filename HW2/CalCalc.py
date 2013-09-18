@@ -35,16 +35,30 @@ def calculate(command_string, use_wolfram=False):
                 return result
             except:
                 print "I don't know the answer to this question, so let's ask Wolfram Alpha."
-                wolf_search(str(command_string))
+                return wolf_search(str(command_string))
                 
         else: # use the interwebz
-            wolf_search(str(command_string))
+            return wolf_search(str(command_string))
 
 #==============================================================================
 # Tests
 #==============================================================================
 def test_1():
     assert abs(64.0 - calculate('8**2')) < .001
+
+def test_2():
+    assert abs(10 - int(calculate('five plus five', use_wolfram=True))) < .001
+
+def test_3():
+    assert abs(15 - int(calculate('five plus ten'))) < .001
+    
+def test_4():
+    answer = 'A woodchuck would chuck all the wood he could chuck if a woodchuck could chuck wood.'
+    check = calculate('How much wood would a woodchuck chuck, if a woodchuck could chuck wood?', use_wolfram=True).split('\n')[0]
+    assert answer.lower().strip() == check.lower().strip()
+
+def test_5():
+    assert calculate('min([5,4,3,4,5])') == 3
 
 #==============================================================================
 # Command Line Parsing
