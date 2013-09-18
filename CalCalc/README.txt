@@ -18,3 +18,6 @@ Tests check:
 * Ability to specify a Wolfram Alpha search
 * Ability to return strings
 * Ability to return ints
+
+Note:
+It is a deliberate design decision to *not* parse out the numerical part of a Wolfram Alpha query such as "mass of moon in kg," in order to preserve access to the more interesting Wolfram Alpha queries, which should return strings.
