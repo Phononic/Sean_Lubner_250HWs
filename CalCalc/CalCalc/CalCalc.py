@@ -1,3 +1,5 @@
+# Command line calculator -- by Sean Lubner
+
 #==============================================================================
 # Main Functions
 #==============================================================================
@@ -9,7 +11,7 @@ def calculate(command_string, use_wolfram=False):
         import urllib2
         query_address = 'http://api.wolframalpha.com/v2/query?input=' + \
         urllib2.quote(wolf_string).replace('/','%2F') + \
-        '&appid=UAGAWR-3X6Y8W777Q'
+        '&appid=RLER5L-8TJ6Q3T6KJ'
         print '\tTalking to Wolfram Alpha, please wait...\n'
         search_data = urllib2.urlopen(query_address).read()
         if "<queryresult success='true'" in search_data: # search was successful

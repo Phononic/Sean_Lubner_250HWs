@@ -1,0 +1,39 @@
+Ideas:
+* Normalize (brightness / contrast)
+* use .flat or .flatten
+* normalize feature sets
+* Check out io.ImageCollection from the scikit image package.
+It loads in all the images but only keeps one image in memory at a time. 
+* from sklearn import grid_search
+grid_search.GridSearchCV?
+* randomize data before splitting into training / test
+* ensemble.RandomForestClassifier
+
+* get the proportion of pixels in the image that are part of horizontal edges, above a threshold (hsobel)
+* get the proportion of pixels in the image that are part of vertical edges, above a threshold (vsobel)
+* get the number of objects after segmentation (following the scikits-image watershed tutorial)
+* get the size (relative to the size of the image as a whole) of the largest object after segmentation
+
+* pca = RandomizedPCA(n_components=2)
+X = pca.fit_transform(data)
+df = pd.DataFrame({"x": X[:, 0], "y": X[:, 1], "label":np.where(y==1, "Check", "Driver's License")})
+colors = ["red", "yellow"]
+for label, color in zip(df['label'].unique(), colors):
+    mask = df['label']==label
+    pl.scatter(df[mask]['x'], df[mask]['y'], c=color, label=label)
+pl.legend()
+pl.show()
+
+Features:
+* Check here: http://scikit-image.org/docs/dev/auto_examples/
+* Total size (pixels)
+* Average / median R, G, B values
+* Ratios of average / median R, G, B values
+* Edge detection (scikit?)
+* Fourier Xform (high vs low freq)
+* Contrast ratios / clustering (lower 2/3 of pixels vs top 1/3 of pixels -- foreground vs background)
+* Look at histogram
+* histogram of oriented gradients (skimage.feature.hog)
+* apply various filters to image (import scipy.ndimage as ndi
+img_med = ndi.median_filter(img_clean, size=5) )
+* filename?
