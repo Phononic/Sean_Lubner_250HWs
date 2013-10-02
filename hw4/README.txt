@@ -12,7 +12,7 @@ There are 3 main ipython notebooks:
 The ipython notebooks hw4_classifier_dev and hw4_final should be used by the grader to evaluate the classifier on a validation set.  
 
 Step 1:
-run the hw4_classifier_dev notebook (or, if prefered, save the notebook as a .py file, and run that).  This will create and pickle a random forest classifier based on the already pickled training data (to avoid sending a very large classifier pickle file through github).  This will also provide feedback metrics on this classifier
+run the hw4_classifier_dev notebook (or, if prefered, save the notebook as a .py file, and run that).  This will create and pickle a random forest classifier based on the already pickled training data (to avoid sending a very large classifier pickle file through github).  This will also provide feedback metrics on this classifier.  Depending on the computer, this will take around a minute to run.
 
 Step 2:
 run the hw4_final notebook (or, if prefered, save the notebook as a .py file, and run that).  This will populate the namespace with the necessary functions.  
@@ -21,7 +21,7 @@ Step 3:
 Call the function: 
 	(predictions, file_names) = run_final_classifier(path, forest="./trained_classifier.p")
 where path should be the absolute or relative directory to the validation image set, and forest should be the path to the pickled trained classifier (set as default).
-Calling this function will provide on-screen feedback regarding progress, and will generate a .txt file with all the predictions for the validation image set in the same directory.  It will also store the predictions, along with a list of the validation image file names, in the variables 'predictions' and 'file_names' respectively (assuming the function is called as shown above).
+Calling this function will provide on-screen feedback regarding progress, and will generate a .txt file with all the predictions for the validation image set in the same directory.  It will also store the predictions, along with a list of the validation image file names, in the variables 'predictions' and 'file_names' respectively (assuming the function is called as shown above) for automated grading purposes.  Depending on the computer, this will take around 2.2 seconds per image to run.
 
 
 ################ Features List ################
@@ -38,8 +38,11 @@ Note 2: for efficiency, I will describe similarly groupable features with common
 
 ################ Classifier Metrics ################
 Note: all of these metrics are visible in the code as well (hw4_classifier_dev)
-Best Score = 
+Best Score = 29.76 % accuracy (for 4-fold CV)
 Random Guessing = 2% ( = 1/(# of classes) )
-Machine learning is 14 times better than random guessing
+Machine learning is almost 15 times better than random guessing!
 
-Top 3 features (see notebook for full importance list):
+Top 3 features (see notebook for full ranked list):
+1) aspect ratio of image (unexpected...)
+2) pixel count / size of image (also unexpected...)
+3) number of image peaks (makes more sense) 
