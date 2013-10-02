@@ -1,0 +1,16 @@
+Random Forest Classifier Algorithm:
+
+1) Randomly sample a subset of the total training data
+2) for that set, choose a random subset of dimension(s) (feature(s)) -- usually each time choosing the same number of dimensions defaulted to sqrt[# total dimensions], and for that subset of dimensions, find the optimal split (optimal split determined by gini or entropy -- determines both on which dimension to split, and at what value).
+3) for each remaining subset of input (after the split), repeat 2)
+4) repeat 3) until each leaf (subset after splitting) has a single class / category for the data points remaining in it (or until no further splitting can be made to improve information gain)
+5) 1) through 4) constitutes one tree, repeat for n trees, to build forest
+6) Once forest is built, for new test data, push through each tree on forest, and take the mode classification that the forest decides on (degenerate modes?)
+
+Optimal split:
+* Gini: Tests the purity of the nodes resulting from the split.  Mathematically, it is the sum of the squares of the proportions of the classes 
+
+Python's Random Forest Algorithm:
+* for a split, randomly sample max_features number of dimensions to form a  sub-space from that tree-specific training data bootstrap data set
+* continue splitting unless: leaf is pure, max_depth level is reached, leaf has < min_samples_split number of samples, or splitting would create a leaf with < min_samples_leaf number of samples in it
+* Repeat for n_estimators number of trees in the forest
