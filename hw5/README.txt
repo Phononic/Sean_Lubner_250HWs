@@ -1,7 +1,9 @@
 AY250 Homework 5
 Sean Lubner
 
-################ General ################
+################ Client / Server ################
+Methods: color_complement(), crop_image(), flip_image()
+Client and Server side images (before and after) are saved in the repo
 
 ################ Audio ################
 ---- Detected notes ----
