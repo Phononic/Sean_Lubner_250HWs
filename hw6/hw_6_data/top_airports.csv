@@ -14,16 +14,16 @@ Miami,MIA,MIA,KMIA,Miami International Airport,P-L,17017654
 Orlando,MCO,MCO,KMCO,Orlando International Airport,P-L,17017491
 Newark,EWR,EWR,KEWR,Newark Liberty International Airport,P-L,16571754
 Detroit / Romulus,DTW,DTW,KDTW,Detroit Metropolitan Wayne County Airport,P-L,15643890
-Minneapolis,MSP,MSP,KMSP,Minneapolis-St. Paul International Airport (Wold-Chamberlain Field),P-L,15512487
+Minneapolis,MSP,MSP,KMSP,Minneapolis-St Paul International/Wold-Chamberlain Airport,P-L,15512487
 Seattle / Tacoma (SeaTac),SEA,SEA,KSEA,Seattle-Tacoma International Airport,P-L,15406243
 Philadelphia,PHL,PHL,KPHL,Philadelphia International Airport,P-L,14951254
 Boston,BOS,BOS,KBOS,Gen. Edward Lawrence Logan International Airport,P-L,13561814
 New York,LGA,LGA,KLGA,LaGuardia Airport (and Marine Air Terminal),P-L,12001501
 Washington D.C. / Chantilly / Dulles,IAD,IAD,KIAD,Washington Dulles International Airport,P-L,11276481
 Baltimore / Glen Burnie,BWI,BWI,KBWI,Baltimore/Washington International Thurgood Marshall Airport,P-L,10848633
-Fort Lauderdale,FLL,FLL,KFLL,Fort Lauderdale–Hollywood International Airport,P-L,10829810
+Fort Lauderdale,FLL,FLL,KFLL,Fort Lauderdale Hollywood International Airport,P-L,10829810
 Salt Lake City,SLC,SLC,KSLC,Salt Lake City International Airport,P-L,9910493
-Honolulu,HNL,HNL,PHNL,Honolulu International Airport / Hickam AFB,P-L,8740077
+Honolulu,HNL,HNL,PHNL,Honolulu International Airport,P-L,8740077
 Washington D.C. / Arlington County,DCA,DCA,KDCA,Ronald Reagan Washington National Airport,P-L,8736804
 Chicago,MDW,MDW,KMDW,Chicago Midway International Airport,P-L,8518957
 San Diego,SAN,SAN,KSAN,San Diego International Airport,P-L,8430509
@@ -34,14 +34,14 @@ Kansas City,MCI,MCI,KMCI,Kansas City International Airport,P-M,4946173
 Memphis,MEM,MEM,KMEM,Memphis International Airport,P-M,4930935
 Cleveland,CLE,CLE,KCLE,Cleveland-Hopkins International Airport,P-M,4704329
 Oakland,OAK,OAK,KOAK,Oakland International Airport,P-M,4673417
-San Juan / Carolina,SJU,SJU,TJSJ,Luis Muñoz Marín International Airport,P-M,4635798
+San Juan / Carolina,SJU,SJU,TJSJ,Luis Munoz Marin International Airport,P-M,4635798
 Raleigh,RDU,RDU,KRDU,Raleigh-Durham International Airport,P-M,4465736
 Nashville,BNA,BNA,KBNA,Nashville International Airport (Berry Field),P-M,4432527
 Sacramento,SMF,SMF,KSMF,Sacramento International Airport,P-M,4424279
 Houston,HOU,HOU,KHOU,William P. Hobby Airport,P-M,4357835
-Santa Ana,SNA,SNA,KSNA,John Wayne Airport – Orange County (was Orange County Airport),P-M,4278623
+Santa Ana,SNA,SNA,KSNA,John Wayne Airport-Orange County,P-M,4278623
 Austin,AUS,AUS,KAUS,Austin-Bergstrom International Airport,P-M,4201136
-San Jose,SJC,SJC,KSJC,Norman Y. Mineta San José International Airport,P-M,4108167
+San Jose,SJC,SJC,KSJC,Norman Y. Mineta San Jose International Airport,P-M,4108167
 New Orleans,MSY,MSY,KMSY,Louis Armstrong New Orleans International Airport,P-M,4088889
 Pittsburgh,PIT,PIT,KPIT,Pittsburgh International Airport,P-M,3996656
 San Antonio,SAT,SAT,KSAT,San Antonio International Airport,P-M,3916320

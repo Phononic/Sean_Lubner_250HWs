@@ -17,6 +17,7 @@
 6539,"00IL","small_airport","Hammer Airport",41.978401184082,-89.5604019165039,840,"NA","US","US-IL","Polo","no","00IL",,"00IL",,,
 6540,"00IN","heliport","St Mary Medical Center Heliport",41.5113983154297,-87.2605972290039,634,"NA","US","US-IN","Hobart","no","00IN",,"00IN",,,
 6541,"00IS","small_airport","Hayenga's Cant Find Farms Airport",40.0256004333496,-89.1229019165039,820,"NA","US","US-IL","Kings","no","00IS",,"00IS",,,
+3422,"KBOS","large_airport","General International Airport",42.36429977,-71.00520325,20,"NA","US","US-MA","Boston","yes","KBOS","BOS","BOS","http://www.massport.com/logan/","http://en.wikipedia.org/wiki/Logan_International_Airport","General Edward Lawrence Logan International Airport"
 6542,"00KS","small_airport","Hayden Farm Airport",38.7277984619141,-94.9304962158203,1100,"NA","US","US-KS","Gardner","no","00KS",,"00KS",,,
 6543,"00KY","small_airport","Robbins Roost Airport",37.4094009399414,-84.6196975708008,1265,"NA","US","US-KY","Stanford","no","00KY",,"00KY",,,
 45437,"00LA","heliport","Shell Chemical East Site Heliport",30.191944,-90.980833,15,"NA","US","US-LA","Gonzales","no","00LA",,"00LA",,,
@@ -33,6 +34,7 @@
 6554,"00NY","small_airport","Weiss Airfield",42.9001007080078,-77.4997024536133,1000,"NA","US","US-NY","West Bloomfield","no","00NY",,"00NY",,,
 6555,"00OH","small_airport","Exit 3 Airport",41.5909004211426,-84.1421966552734,785,"NA","US","US-OH","Wauseon","no","00OH",,"00OH",,,
 6556,"00OI","heliport","Miami Valley Hospital Heliport",39.7453002929688,-84.1874008178711,905,"NA","US","US-OH","Dayton","no","00OI",,"00OI",,,
+3754,"KORD","large_airport","Chicago O'Hare International Airport",41.97859955,-87.90480042,672,"NA","US","US-IL","Chicago","yes","KORD","ORD","ORD","http://www.flychicago.com/Ohare/OhareHomepage.shtm","http://en.wikipedia.org/wiki/O'Hare_International_Airport","CHI, Orchard Place"
 6557,"00OR","heliport","Steel Systems Heliport",44.9328994750977,-123.129997253418,195,"NA","US","US-OR","Salem","no","00OR",,"00OR",,,
 6558,"00PA","heliport","R J D Heliport",39.9488983154297,-75.7469024658203,402,"NA","US","US-PA","Coatesville","no","00PA",,"00PA",,,
 45773,"00PN","small_airport","Ferrell Field",41.2995,-80.211111,1301,"NA","US","US-PA","Mercer","no","00PN",,"00PN",,,
@@ -51,3 +53,6 @@
 6571,"00WA","small_airport","Howell Airport",47.1783981323242,-122.772003173828,150,"NA","US","US-WA","Longbranch","no","00WA",,"00WA",,,
 6572,"00WI","small_airport","Northern Lite Airport",44.3042984008789,-89.0501022338867,860,"NA","US","US-WI","Waupaca","no","00WI",,"00WI",,,
 6573,"00WN","small_airport","Hawks Run Airport",46.25,-117.249000549316,2900,"NA","US","US-WA","Asotin","no","00WN",,"00WN",,,
+3488,"KDFW","large_airport","Dallas Fort Worth International Airport",32.896800994873,-97.0380020141602,607,"NA","US","US-TX","Dallas-Fort Worth","yes","KDFW","DFW","DFW","http://www.dfwairport.com/","http://en.wikipedia.org/wiki/Dallas-Fort_Worth_International_Airport","QDF"
+3709,"KMSP","large_airport","Minneapolis-St Paul International/Wold-Chamberlain Airport",44.8819999695,-93.2218017578,841,"NA","US","US-MN","Minneapolis","yes","KMSP","MSP","MSP","http://www.mspairport.com/","http://en.wikipedia.org/wiki/Minneapolis-Saint_Paul_International_Airport",
+3457,"KCLT","large_airport","Charlotte Douglas International Airport",35.2140007019043,-80.9430999755859,748,"NA","US","US-NC","Charlotte","yes","KCLT","CLT","CLT","http://www.charlotteairport.com/","http://en.wikipedia.org/wiki/Charlotte/Douglas_International_Airport",
