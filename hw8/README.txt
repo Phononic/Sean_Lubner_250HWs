@@ -1,8 +1,5 @@
-AY250 Homework 7
+AY250 Homework 8
 
 Sean Lubner
 
-To avoid clogging up the git repo / the grader's computer, I did not upload the json file.  Simply replace the json_file_path variable at the top of the notebook to a locally stored copy, and it will propagate through to the rest of the notebook.
-
-All the problems are explained within the notebook with markdown and comments.
-
+GUI for pulling up and manipulating images.  Type search query into designated text field and click "Search Images."  The first useable image wil be downloaded and displayed.  Click one of the 3 image manipulation buttons at the bottom to alter the image, or click the "original" button to restore the image to its original form.
