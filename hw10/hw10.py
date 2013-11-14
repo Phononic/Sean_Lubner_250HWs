@@ -45,20 +45,30 @@ except:
 @app.route("/index.html")
 @app.route("/home")
 def home():
-    upload_link = url_for("upload_file")
-    upload_text = 'Insert a Collection'
-    query_link = url_for("query_database")
-    query_text = 'Run a Query'
-    links_list = [upload_link, upload_text, query_link, query_text]
+    """ Home page """
+    # Specify links:
+    links_list = [url_for("upload_file"),
+                  'Insert a Collection',
+                  url_for("query_database"),
+                  'Run a Query']
+    
     return render_template('base.html',
                            window_title='BibTex Viewer | Main Page',
                            page_title='Home Page',
-                           links=links_list,
-                           content='content here')
+                           links=links_list)
 
-@app.route("/insert_collection")
+@app.route("/insert_collection", methods=['GET', 'POST'])
 def upload_file():
-    return "collection insertion place-holder page"
+    """ Function for inserting a collection """
+    links_list = [url_for("home"),
+                  'Back to Home Page']
+    if request.method == 'POST':
+        collection = request.form['col_name']
+        return "Name of collection to upload is: '{0:s}'".format(collection)
+    else:
+    	## this is a normal GET request
+        return render_template('upload_file.html',
+                           links=links_list)    
 
 @app.route("/query")
 def query_database():
