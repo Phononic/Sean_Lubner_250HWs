@@ -1,11 +1,19 @@
-from flask import Flask, render_template, request, url_for
+import os
+from flask import Flask, render_template, request, url_for, redirect, send_from_directory
 from flask.ext.sqlalchemy import SQLAlchemy
+from werkzeug import secure_filename
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+UPLOAD_FOLDER = './uploads'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'bib', 'aux'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 db = SQLAlchemy(app)
 
 app.debug = True
+
+# add a comment
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -57,19 +65,34 @@ def home():
                            page_title='Home Page',
                            links=links_list)
 
-@app.route("/insert_collection", methods=['GET', 'POST'])
+#--------------------- File Uploading ---------------------
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
+
+@app.route('/insert_collection', methods=['GET', 'POST'])
 def upload_file():
     """ Function for inserting a collection """
     links_list = [url_for("home"),
                   'Back to Home Page']
     if request.method == 'POST':
-        collection = request.form['col_name']
-        return "Name of collection to upload is: '{0:s}'".format(collection)
+        bib_file = request.files['col_file']
+        bib_name = request.form['col_name']
+        if bib_file and allowed_file(bib_file.filename):
+            filename = secure_filename(bib_file.filename)
+            bib_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
     else:
-    	## this is a normal GET request
         return render_template('upload_file.html',
-                           links=links_list)    
+                           links=links_list)
 
+#--------------------- Querying ---------------------
 @app.route("/query")
 def query_database():
     return "query place-holder page"
