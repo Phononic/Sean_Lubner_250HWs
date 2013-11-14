@@ -4,9 +4,21 @@
 {% set page_title = 'Insert a Collection' %}
 
 {% block data_content %}
+
+
 	<form action="insert_collection" enctype="multipart/form-data" method="POST">
 	Collection Name: <input type="text" name="col_name" />
 	<input type="file" name="col_file">
 	<input type="submit" value="Upload!">
 	</form>
+
+
+	{% if dupes[0] %}
+		 <br /><font color="red">You've already used that name for a collection! Please choose a different name.</font>
+	{% endif %}
+	{% if dupes[1] %}
+		 <br /><font color="red">You've already uploaded that file! Please choose a new file.</font>
+	{% endif %}
+
+
 {% endblock data_content %}
