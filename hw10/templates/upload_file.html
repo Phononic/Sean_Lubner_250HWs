@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% set window_title = 'BibTex Viewer | Insert a Collection' %}
+{% set page_title = 'Insert a Collection' %}
+
+{% block data_content %}
+	<form action="insert_collection" method="POST">
+	Collection Name: <input type="text" name="col_name" />
+	(file selection placeholder)
+	<input type="submit" value="Upload!">
+	</form>
+{% endblock data_content %}
