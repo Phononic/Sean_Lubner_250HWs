@@ -2,17 +2,24 @@
 
 <html>
 	<head>
-		<title>My Super Site</title>
+		<title>{{ window_title }}</title>
 	</head>
 	
-	<body>
+   <body>
         <h1>{{ page_title }}</h1>
 
-        <p>This content is “dynamic”:</p>
-	<p> {{ content2 }} </p>
+	<p> Navigation: <a href='{{ links[0] }}'>{{ links[1] }}</a> 
+	{% if links[2] %} --- {% endif %} <a href='{{ links[2] }}'>{{ links[3] }}</a> </p>
+
+	<p> {{ content  }} </p>
+	
+	<p>{% block data_content %}{% endblock data_content %}</p>
+	
+	<p> 
+	Test Area:
+	<br />
+	{% if test %} hi {% endif %}
+	</p>
             
-            <p>before content block 1{% block content %}{% endblock %}
-            </p>
-		<p>before content block 3{% block content3%}{% endblock%}</p>
     </body>
 </html>
