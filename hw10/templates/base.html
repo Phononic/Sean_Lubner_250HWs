@@ -23,7 +23,7 @@
 	{{ content  }}
 	<br />{% block query %}{% endblock query %}
 	<ul id="collections">
-	{% for collection in collections %}
+	{% for collection in html_collections %}
 	<li>{{ collection }}</li>
 	{% endfor %}
 	</ul>

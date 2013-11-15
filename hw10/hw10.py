@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, url_for, redirect, send_from_
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug import secure_filename
 from pybtex.database.input import bibtex
+from string import punctuation, whitespace
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
@@ -28,19 +29,20 @@ def home():
     # Specify links:
     links_list = [(url_for("upload_file"), 'Insert a Collection'),
                   (url_for("query_database"), 'Run a Query')]
-    collections_list = dbs.keys()
+    collections_list = collections.keys()
     collections_list.sort()
     return render_template('base.html',
                            window_title='BibTex Viewer | Main Page',
                            page_title='Home Page',
                            links=links_list,
-                           db_present=(len(dbs) > 0),
+                           db_present=(len(collections) > 0),
                            content='These are your available collections:',
-                           collections=collections_list)
+                           html_collections=collections_list)
 
 #--------------------- File Uploading & Parsing ---------------------
 duplicates = [False, False] # [collection_name_taken, file_name_taken]
-dbs = {} # initialize a list of databases, each item of format: (name, database)
+collections = {} # initialize a list of collections, each item of format: (name, database)
+info4db = [] # initialize a database
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -50,14 +52,29 @@ def is_bibtex(filename):
     """ returns true if the file is a bibtex file """
     return filename.rsplit('.', 1)[1].lower() == '.bib'
 
-def parse_bibtex(bib_file):
+def parse_bibtex(bib_file, col_name):
     """ Parses a .bib file """
+    parser = bibtex.Parser()
+    bib_data = parser.parse_file(bib_file)
+    def author2str(author):
+        """ formats a Pybtex Person object into a string represntation """
+        return author.last()[0].strip('{}') + ", " + " ".join(author.bibtex_first())
+    gunk = punctuation + whitespace
+    for tag, entry in bib_data.entries.items():
+        author_list = " and ".join([author2str(x) for x in entry.persons['author']])
+        journal = entry.fields['journal'].strip(gunk)
+        vol = int(entry.fields['volume'].strip(gunk))
+        pages = entry.fields['pages'].strip(gunk)
+        year = int(entry.fields['year'].strip(gunk))
+        title = entry.fields['title'].strip(gunk)
+
+        info4db.append( (tag, author_list, journal, vol, pags, year, title, col_name) )
 
 def process_file(filename, col_name, the_file):
     """ Verify entries, parse the file, and create / add to a database from it """
     if len(col_name.strip(' ')) == 0: # if no name provided for collection, use file name
         col_name = ''.join(secure_filename(the_file.filename).split('.')[:-1])
-    if col_name in dbs.keys(): # if collection name already taken
+    if col_name in collections.keys(): # if collection name already taken
         duplicates[0] = True
         duplicates[1] = False
         return redirect(url_for('upload_file'))
@@ -67,11 +84,11 @@ def process_file(filename, col_name, the_file):
                 return redirect(url_for('upload_file'))
     duplicates[0] = False
     duplicates[1] = False
-    dbs[col_name] = the_file # add to dictionary of databases
+    collections[col_name] = the_file # add to dictionary of databases
     the_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     # Parse the file if bibtex
     if is_bibtex(the_file.filename):
-        parse_bibtex(the_file)
+        parse_bibtex(the_file, col_name)
     """
     ref_tag, author_list TEXT, journal TEXT, volume INT, pages INT, year DATE, title TEXT, collection TEXT
     """
@@ -90,7 +107,7 @@ def upload_file():
     else:
         return render_template('upload_file.html',
                                links=links_list,
-                               db_present=(len(dbs) > 0),
+                               db_present=(len(collections) > 0),
                                dupes=duplicates)
 
 #--------------------- Querying---------------------
@@ -103,12 +120,12 @@ def query_database():
         query = "processed--" + str(query_raw) + "--processed"
         return render_template('query.html',
                                links=links_list,
-                               db_present=(len(dbs) > 0),
+                               db_present=(len(collections) > 0),
                                query_preset=query_raw),
     else:
         return render_template('query.html',
                                links=links_list,
-                               db_present=(len(dbs) > 0)),
+                               db_present=(len(collections) > 0)),
                                
 
 #--------------------- Previous Funcs ---------------------
