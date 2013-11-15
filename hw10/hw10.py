@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, url_for, redirect, send_from_directory
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug import secure_filename
+from pybtex.database.input import bibtex
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
@@ -11,6 +12,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.debug = True
 
+def clear_uploads():
+    """ Delete all files in uploads folder """
+    for the_file in os.listdir(app.config['UPLOAD_FOLDER']):
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], the_file)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+    
 #--------------------- Home Page ---------------------
 @app.route("/") # Main page
 @app.route("/index.html")
@@ -30,33 +38,43 @@ def home():
                            content='These are your available collections:',
                            collections=collections_list)
 
-#--------------------- File Uploading ---------------------
+#--------------------- File Uploading & Parsing ---------------------
 duplicates = [False, False] # [collection_name_taken, file_name_taken]
+dbs = {} # initialize a list of databases, each item of format: (name, database)
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def is_bibtex(filename):
+    """ returns true if the file is a bibtex file """
+    return filename.rsplit('.', 1)[1].lower() == '.bib'
+
+def parse_bibtex(bib_file):
+    """ Parses a .bib file """
 
 def process_file(filename, col_name, the_file):
-    """ Verify entries, parse the file, and create a database from it """
+    """ Verify entries, parse the file, and create / add to a database from it """
     if len(col_name.strip(' ')) == 0: # if no name provided for collection, use file name
         col_name = ''.join(secure_filename(the_file.filename).split('.')[:-1])
-
     if col_name in dbs.keys(): # if collection name already taken
         duplicates[0] = True
         duplicates[1] = False
         return redirect(url_for('upload_file'))
-
     if filename in os.listdir(app.config['UPLOAD_FOLDER']): # if filename name already taken
                 duplicates[1] = True
                 duplicates[0] = False
                 return redirect(url_for('upload_file'))
-
     duplicates[0] = False
     duplicates[1] = False
     dbs[col_name] = the_file # add to dictionary of databases
     the_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    # Parse the file if bibtex
+    if is_bibtex(the_file.filename):
+        parse_bibtex(the_file)
+    """
+    ref_tag, author_list TEXT, journal TEXT, volume INT, pages INT, year DATE, title TEXT, collection TEXT
+    """
     return redirect(url_for('home'))    
 
 @app.route('/insert_collection', methods=['GET', 'POST'])
@@ -75,7 +93,7 @@ def upload_file():
                                db_present=(len(dbs) > 0),
                                dupes=duplicates)
 
-#--------------------- Querying ---------------------
+#--------------------- Querying---------------------
 @app.route("/query", methods=['GET', 'POST'])
 def query_database():
     """ Query the databse """
@@ -93,10 +111,8 @@ def query_database():
                                db_present=(len(dbs) > 0)),
                                
 
-#--------------------- Database Management ---------------------
+#--------------------- Previous Funcs ---------------------
 db = SQLAlchemy(app)
-
-dbs = {} # initialize a list of databases, each item of format: (name, database)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -144,4 +160,5 @@ def get_admin_email():
 
 #--------------------- Main Program ---------------------
 if __name__ == "__main__":
+    clear_uploads()
     app.run()
