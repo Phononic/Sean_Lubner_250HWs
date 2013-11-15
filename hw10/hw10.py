@@ -61,14 +61,32 @@ def parse_bibtex(bib_file, col_name):
         return author.last()[0].strip('{}') + ", " + " ".join(author.bibtex_first())
     gunk = punctuation + whitespace
     for tag, entry in bib_data.entries.items():
-        author_list = " and ".join([author2str(x) for x in entry.persons['author']])
-        journal = entry.fields['journal'].strip(gunk)
-        vol = int(entry.fields['volume'].strip(gunk))
-        pages = entry.fields['pages'].strip(gunk)
-        year = int(entry.fields['year'].strip(gunk))
-        title = entry.fields['title'].strip(gunk)
+        try: # authors
+            author_list = " and ".join([author2str(x) for x in entry.persons['author']])
+        except:
+            author_list = "Not Available"
+        try: # journal
+            journal = entry.fields['journal'].strip(gunk)
+        except:
+            journal = "Not Available"
+        try: # volume
+            vol = int(entry.fields['volume'].strip(gunk))
+        except:
+            vol = -1
+        try: # pages
+            pages = entry.fields['pages'].strip(gunk)
+        except:
+            pages = "Not Available"
+        try: # year
+            year = int(entry.fields['year'].strip(gunk))
+        except:
+            year = -1
+        try: # title
+            title = entry.fields['title'].strip(gunk)
+        except:
+            title = "Not Available"
 
-        info4db.append( (tag, author_list, journal, vol, pags, year, title, col_name) )
+        info4db.append( (tag, author_list, journal, vol, pages, year, title, col_name) )
 
 def process_file(filename, col_name, the_file):
     """ Verify entries, parse the file, and create / add to a database from it """
@@ -121,11 +139,13 @@ def query_database():
         return render_template('query.html',
                                links=links_list,
                                db_present=(len(collections) > 0),
-                               query_preset=query_raw),
+                               query_preset=query_raw,
+                               query_str = query,
+                               db_info = str(info4db) )
     else:
         return render_template('query.html',
                                links=links_list,
-                               db_present=(len(collections) > 0)),
+                               db_present=(len(collections) > 0))
                                
 
 #--------------------- Previous Funcs ---------------------
