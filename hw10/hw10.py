@@ -1,4 +1,5 @@
 import os
+import sqlite3
 from flask import Flask, render_template, request, url_for, redirect, send_from_directory
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug import secure_filename
@@ -6,7 +7,7 @@ from pybtex.database.input import bibtex
 from string import punctuation, whitespace
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/bib.db'
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'bib', 'aux'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -41,55 +42,87 @@ def home():
 
 #--------------------- File Uploading & Parsing ---------------------
 duplicates = [False, False] # [collection_name_taken, file_name_taken]
-collections = {} # initialize a list of collections, each item of format: (name, database)
-info4db = [] # initialize a database
-errors=[0,0]
+collections = {} # initialize a list of collections, each item of format: (name, file)
+db = SQLAlchemy(app) # initialize a database
+eng = db.create_engine(app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode=True) # for running queries
+info4db = [] # initialize a bucket for the parsed data to be inserted into the database
+
+class Article(db.Model):
+    """ Article database object, for inserting data """
+    __tablename__ = 'article' #@@@@@@ TAG @@@@@@
+    id = db.Column(db.Integer, primary_key=True)
+    citation_tag = db.Column(db.String(100), unique=True)
+    author_list = db.Column(db.String(500), unique=True)
+    journal=db.Column(db.String(100),unique=True)
+    volume=db.Column(db.Integer,unique=True)
+    pages=db.Column(db.String(50),unique=True)
+    year=db.Column(db.Integer,unique=True)
+    title=db.Column(db.String(200),unique=True)
+    collection=db.Column(db.String(50),unique=True)
+    def __init__(self, citation_tag,author_list,journal,volume,pages,year,title,collection):
+        self.citation_tag=citation_tag
+        self.author_list=author_list
+        self.journal=journal
+        self.volume=volume
+        self.pages=pages
+        self.year=year
+        self.title=title
+        self.collection=collection
+db.create_all() # create database objects
+
+def add_entries(bib_data,database="/tmp/bib.db"):
+    """ Adds the entries in "bib_data" to the database located at path "database" """
+    for item in bib_data:
+        db.session.add(Article(item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7]))
+        try:
+            db.session.commit()
+        except:
+            pass
 
 def allowed_file(filename):
+    """ Sanitizes filename entry """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def is_bibtex(filename):
-    """ returns true if the file is a bibtex file """
+    """ returns True if the file is a bibtex file """
     return filename.rsplit('.', 1)[1].lower() == 'bib'
 
 def parse_bibtex(bib_file_path_local, col_name):
     """ Parses a .bib file """
     parser = bibtex.Parser()
     bib_data = parser.parse_file(bib_file_path_local)
-    errors[0]=str(bib_file_path_local) #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    #errors[1]=str(bib_data) #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     def author2str(author):
         """ formats a Pybtex Person object into a string represntation """
         return author.last()[0].strip('{}') + ", " + " ".join(author.bibtex_first())
     gunk = punctuation + whitespace
     for tag, entry in bib_data.entries.items():
         try: # authors
-           author_list = " and ".join([author2str(x) for x in entry.persons['author']])
+           author_list = str(" and ".join([author2str(x) for x in entry.persons['author']]))
         except:
             author_list = "Not Available"
         try: # journal
-            journal = entry.fields['journal'].strip(gunk)
+            journal = str(entry.fields['journal'].strip(gunk))
         except:
             journal = "Not Available"
         try: # volume
-            vol = entry.fields['volume'].strip(gunk)
+            vol = str(entry.fields['volume'].strip(gunk))
         except:
             vol = "Not Available"
         try: # pages
-            pages = entry.fields['pages'].strip(gunk)
+            pages = str(entry.fields['pages'].strip(gunk))
         except:
             pages = "Not Available"
         try: # year
-            year = entry.fields['year'].strip(gunk)
+            year = str(entry.fields['year'].strip(gunk))
         except:
             year = "Not Available"
         try: # title
-            title = entry.fields['title'].strip(gunk)
+            title = str(entry.fields['title'].strip(gunk))
         except:
             title = "Not Available"
-        
-        info4db.append( (tag, author_list, journal, vol, pages, year, title, col_name) )
+        info4db.append( (str(tag), author_list, journal, vol, pages, year, title, col_name) )
+    add_entries(info4db)
 
 def process_file(filename, col_name, the_file):
     """ Verify entries, parse the file, and create / add to a database from it """
@@ -129,13 +162,21 @@ def upload_file():
                                dupes=duplicates)
 
 #--------------------- Querying---------------------
+def run_query(query, database="/tmp/bib.db"):
+    connection = eng.connect()
+    sql_cmd="SELECT * FROM article WHERE " + query
+    results = connection.execute(sql_cmd)
+    for entry in db_info:
+        results.append(entry)
+    return results
+
 @app.route("/query", methods=['GET', 'POST'])
 def query_database():
-    """ Query the databse """
+    """ Query the databse html page manager """
     links_list = [(url_for("home"), 'Back to Home Page')]
     if request.method == 'POST':
         query_raw = request.form['query_str']
-        query = "processed--" + str(query_raw) + "--processed"
+        query_results = info4db #run_query(query_raw)  #@@@@@@ TAG @@@@@@
         return render_template('query.html',
                                links=links_list,
                                db_present=(len(collections) > 0),
@@ -147,55 +188,10 @@ def query_database():
                                links=links_list,
                                db_present=(len(collections) > 0))
                                
-
-#--------------------- Previous Funcs ---------------------
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
-    email = db.Column(db.String(120), unique=True)
-
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
-
-    def __str__(self):
-        return 'Yo, my name is %r' % self.username
-
-class Person(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    addresses = db.relationship('Address', backref='person',
-                                lazy='dynamic')
-
-class Address(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(50))
-    person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
-
-
-db.create_all()
-admin = User('admin', 'admin@example.com')
-guest = User('guest', 'guest@example.com')
-db.session.add(admin)
-db.session.add(guest)
-try:
-	db.session.commit()
-except:
-	pass
-    
-@app.route("/users")
-def get_users():
-   print " ".join([str(x) for x in User.query.all()])
-   return str([x.email for x in User.query.all()])
-
-@app.route("/admin")
-def get_admin_email():
-   admin = User.query.filter_by(username='admin').first()
-   return "<b>Admin Email</b>: %s" % admin.email
-
 #--------------------- Main Program ---------------------
 if __name__ == "__main__":
-    clear_uploads()
+    clear_uploads() # Empty out the uploads folder from the previous session
+    if os.path.isfile("/tmp/bib.db"):
+        os.unlink("/tmp/bib.db") # release previous session's database
+
     app.run()

@@ -17,21 +17,25 @@
 	</form>
 
 	<p>
-	Results from query:
-	<ul>
-	{% for entry in results %}
-		<li>
-		Reference Tag: {{ entry[0] }} <br />
-		Author List: {{ entry[1] }} <br />
-		Journal: {{ entry[2] }} <br />
-		Volume: {{ entry[3] }} <br />
-		Pages: {{ entry[4] }} <br />
-		Year: {{ entry[5] }} <br />
-		Title: {{ entry[6] }} <br />
-		Collection: {{ entry[7] }} <br />
-		</li>
-		<br />
-	{% endfor %}
+	{% if results %}
+		Results from query "{{ query_str }}":
+		<ul>
+		{% for entry in results %}
+			<li>
+			Reference Tag: {{ entry[0] }} <br />
+			Author List: {{ entry[1] }} <br />
+			Journal: {{ entry[2] }} <br />
+			Volume: {{ entry[3] }} <br />
+			Pages: {{ entry[4] }} <br />
+			Year: {{ entry[5] }} <br />
+			Title: {{ entry[6] }} <br />
+			Collection: {{ entry[7] }} <br />
+			</li>
+			<br />
+		{% endfor %}
+	{% else %}
+		No query results to display.
+	{% endif %}
 	</ul>
 	</p>
 
