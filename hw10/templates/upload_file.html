@@ -5,9 +5,10 @@
 
 {% block data_content %}
 
+	Please insert a new collection by uploading a Bibtex file with the form below.
 
 	<form action="insert_collection" enctype="multipart/form-data" method="POST">
-	Collection Name: <input type="text" name="col_name" />
+	Collection Name: <input type="text" name="col_name">
 	<input type="file" name="col_file">
 	<input type="submit" value="Upload!">
 	</form>

@@ -18,17 +18,17 @@ app.debug = True
 def home():
     """ Home page """
     # Specify links:
-    links_list = [url_for("upload_file"),
-                  'Insert a Collection',
-                  url_for("query_database"),
-                  'Run a Query']
-    
+    links_list = [(url_for("upload_file"), 'Insert a Collection'),
+                  (url_for("query_database"), 'Run a Query')]
+    collections_list = dbs.keys()
+    collections_list.sort()
     return render_template('base.html',
                            window_title='BibTex Viewer | Main Page',
                            page_title='Home Page',
                            links=links_list,
                            db_present=(len(dbs) > 0),
-                           content='Current databases:' + str(dbs) + '\nsize: ' + str(len(dbs)))
+                           content='These are your available collections:',
+                           collections=collections_list)
 
 #--------------------- File Uploading ---------------------
 duplicates = [False, False] # [collection_name_taken, file_name_taken]
@@ -37,9 +37,6 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-#@app.route('/uploads/<filename>')
-#def uploaded_file(filename):
-#    return send_from_directory(app.config['UPLOAD_FOLDER'],  filename)
 
 def process_file(filename, col_name, the_file):
     """ Verify entries, parse the file, and create a database from it """
@@ -48,6 +45,7 @@ def process_file(filename, col_name, the_file):
 
     if col_name in dbs.keys(): # if collection name already taken
         duplicates[0] = True
+        duplicates[1] = False
         return redirect(url_for('upload_file'))
 
     if filename in os.listdir(app.config['UPLOAD_FOLDER']): # if filename name already taken
@@ -64,26 +62,36 @@ def process_file(filename, col_name, the_file):
 @app.route('/insert_collection', methods=['GET', 'POST'])
 def upload_file():
     """ Function for inserting a collection """
-    links_list = [url_for("home"),
-                  'Back to Home Page']
+    links_list = [(url_for("home"), 'Back to Home Page')]
     if request.method == 'POST':
         bib_file = request.files['col_file']
         bib_name = request.form['col_name']
         if bib_file and allowed_file(bib_file.filename):
             filename = secure_filename(bib_file.filename)
-            return process_file(filename, bib_name, bib_file)
+            return process_file(filename, bib_name, bib_file)  
     else:
-        comment = "Please insert a new collection by uploading a Bibtex file with the form below."
         return render_template('upload_file.html',
                                links=links_list,
                                db_present=(len(dbs) > 0),
-                               content=comment + 'col_name_taken is: ' + str(duplicates[0]) + ', file_name_taken is: ' + str(duplicates[1]),
                                dupes=duplicates)
 
 #--------------------- Querying ---------------------
-@app.route("/query")
+@app.route("/query", methods=['GET', 'POST'])
 def query_database():
-    return "query place-holder page"
+    """ Query the databse """
+    links_list = [(url_for("home"), 'Back to Home Page')]
+    if request.method == 'POST':
+        query_raw = request.form['query_str']
+        query = "processed--" + str(query_raw) + "--processed"
+        return render_template('query.html',
+                               links=links_list,
+                               db_present=(len(dbs) > 0),
+                               query_preset=query_raw),
+    else:
+        return render_template('query.html',
+                               links=links_list,
+                               db_present=(len(dbs) > 0)),
+                               
 
 #--------------------- Database Management ---------------------
 db = SQLAlchemy(app)

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% set window_title = 'BibTex Viewer | Query Your Collections' %}
+{% set page_title = 'Run a Query' %}
+{% set content = 'You can query it with the form below.' %}
+
+{% block query %}
+
+	Use SQL query syntax to enter the query string that follows the "WHERE." <br />
+	Column names are "ref_tag," "author_list," "journal," "volume" (integer), "pages," "year" (integer), "title," and "collection." <br />
+	To use wildcards, use "LIKE" and employ the "%" (percent symbol) as multiple character wildard and "_" (underscore) as single character wildcard. <br />
+	Make sure to explicitly put strings in quotes.
+
+	<form action="query" enctype="multipart/form-data" method="POST">
+	Query string:  <input type="text" name="query_str" value="{{ query_preset }}" />
+	<input type="submit" value="Query!">
+	</form>
+
+{% endblock query %}

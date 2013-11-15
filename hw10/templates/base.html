@@ -8,17 +8,29 @@
    <body>
         <h1>{{ page_title }}</h1>
 	
-	<p> Navigation: <a href='{{ links[0] }}'>{{ links[1] }}</a> 
-	{% if links[2] %} --- {% endif %} <a href='{{ links[2] }}'>{{ links[3] }}</a> </p>
+	<p> 
+	Navigation: <a href='{{ links[0][0] }}'>{{ links[0][1] }}</a> 
+	{% if links[1] %}
+	{% for link in links[1:] %}
+	 ---  <a href='{{ link[0] }}'>{{ link[1] }}</a> 
+	{% endfor %} 
+	{% endif %}
+	</p>
 
 	<p> 
 	{% if db_present %}
-	A database is present.
-	{% else %}
-	No database present,
-	{% endif %}
+	A database is present.  
+	{{ content  }}
+	<br />{% block query %}{% endblock query %}
+	<ul id="collections">
+	{% for collection in collections %}
+	<li>{{ collection }}</li>
+	{% endfor %}
+	</ul>
 	
-	{{ content  }} 
+	{% else %}
+	No database present.
+	{% endif %} 
 	</p>
 	
 	<p>{% block data_content %}{% endblock data_content %}</p>
