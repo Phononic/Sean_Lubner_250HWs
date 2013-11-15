@@ -43,6 +43,7 @@ def home():
 duplicates = [False, False] # [collection_name_taken, file_name_taken]
 collections = {} # initialize a list of collections, each item of format: (name, database)
 info4db = [] # initialize a database
+errors=[0,0]
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -50,19 +51,21 @@ def allowed_file(filename):
 
 def is_bibtex(filename):
     """ returns true if the file is a bibtex file """
-    return filename.rsplit('.', 1)[1].lower() == '.bib'
+    return filename.rsplit('.', 1)[1].lower() == 'bib'
 
-def parse_bibtex(bib_file, col_name):
+def parse_bibtex(bib_file_path_local, col_name):
     """ Parses a .bib file """
     parser = bibtex.Parser()
-    bib_data = parser.parse_file(bib_file)
+    bib_data = parser.parse_file(bib_file_path_local)
+    errors[0]=str(bib_file_path_local) #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    #errors[1]=str(bib_data) #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     def author2str(author):
         """ formats a Pybtex Person object into a string represntation """
         return author.last()[0].strip('{}') + ", " + " ".join(author.bibtex_first())
     gunk = punctuation + whitespace
     for tag, entry in bib_data.entries.items():
         try: # authors
-            author_list = " and ".join([author2str(x) for x in entry.persons['author']])
+           author_list = " and ".join([author2str(x) for x in entry.persons['author']])
         except:
             author_list = "Not Available"
         try: # journal
@@ -70,22 +73,22 @@ def parse_bibtex(bib_file, col_name):
         except:
             journal = "Not Available"
         try: # volume
-            vol = int(entry.fields['volume'].strip(gunk))
+            vol = entry.fields['volume'].strip(gunk)
         except:
-            vol = -1
+            vol = "Not Available"
         try: # pages
             pages = entry.fields['pages'].strip(gunk)
         except:
             pages = "Not Available"
         try: # year
-            year = int(entry.fields['year'].strip(gunk))
+            year = entry.fields['year'].strip(gunk)
         except:
-            year = -1
+            year = "Not Available"
         try: # title
             title = entry.fields['title'].strip(gunk)
         except:
             title = "Not Available"
-
+        
         info4db.append( (tag, author_list, journal, vol, pages, year, title, col_name) )
 
 def process_file(filename, col_name, the_file):
@@ -106,10 +109,7 @@ def process_file(filename, col_name, the_file):
     the_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     # Parse the file if bibtex
     if is_bibtex(the_file.filename):
-        parse_bibtex(the_file, col_name)
-    """
-    ref_tag, author_list TEXT, journal TEXT, volume INT, pages INT, year DATE, title TEXT, collection TEXT
-    """
+        parse_bibtex(os.path.join(app.config['UPLOAD_FOLDER'], filename), col_name)
     return redirect(url_for('home'))    
 
 @app.route('/insert_collection', methods=['GET', 'POST'])
@@ -140,8 +140,8 @@ def query_database():
                                links=links_list,
                                db_present=(len(collections) > 0),
                                query_preset=query_raw,
-                               query_str = query,
-                               db_info = str(info4db) )
+                               query_str = query_raw,
+                               results = info4db)
     else:
         return render_template('query.html',
                                links=links_list,

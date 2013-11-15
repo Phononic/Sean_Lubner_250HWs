@@ -12,10 +12,27 @@
 	Make sure to explicitly put strings in quotes.
 
 	<form action="query" enctype="multipart/form-data" method="POST">
-	Query string:  <input type="text" name="query_str" value="{{ query_preset }}" />
+	Query string:  <input type="text" name="query_str" value="{{ query_preset }}" size=100/>
 	<input type="submit" value="Query!">
 	</form>
 
-	Results for query: "{{ query_str }}": {{ db_info }}
+	<p>
+	Results from query:
+	<ul>
+	{% for entry in results %}
+		<li>
+		Reference Tag: {{ entry[0] }} <br />
+		Author List: {{ entry[1] }} <br />
+		Journal: {{ entry[2] }} <br />
+		Volume: {{ entry[3] }} <br />
+		Pages: {{ entry[4] }} <br />
+		Year: {{ entry[5] }} <br />
+		Title: {{ entry[6] }} <br />
+		Collection: {{ entry[7] }} <br />
+		</li>
+		<br />
+	{% endfor %}
+	</ul>
+	</p>
 
 {% endblock query %}
