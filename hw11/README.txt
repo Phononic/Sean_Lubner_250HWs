@@ -1,6 +1,8 @@
 AY250 Homework 11
 Sean Lubner
 
+The main results of the homework can be found in the ipython notebook hw11.ipynb, the model can be found in the file PlayerModel.py
+
 Notes: 
 * The data files being used are modified to remove a "double tab" between the word "Player" and "Team" in the first row of each data file.
 
@@ -16,4 +18,7 @@ A Beta function prior with mean 0.255 and variance 0.0011 takes as hyperparamter
 Convergence was confirmed by looking both at the traces of all mus, as well as the z-score plots for each mu.  They do converge.
 
 ---------------- Problem (d) ----------------
-11 of the 13 players' full-season batting average falls within the 95% confidence interval.  See notebook for full table.
+11 of the 13 players' full-season batting average falls within the 95% confidence interval.  See notebook for full table.  Also, check out my sweet list comprehensions (nested list comprehensions!... maybe I'm getting a little carried away)
+
+---------------- Problem (e) ----------------
+See notebook for plots.  A couple more kick-ass list comprehensions for the error bars on the second plot.
