@@ -16,3 +16,4 @@ A Beta function prior with mean 0.255 and variance 0.0011 takes as hyperparamter
 Convergence was confirmed by looking both at the traces of all mus, as well as the z-score plots for each mu.  They do converge.
 
 ---------------- Problem (d) ----------------
+11 of the 13 players' full-season batting average falls within the 95% confidence interval.  See notebook for full table.
