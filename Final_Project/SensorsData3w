@@ -1,0 +1,127 @@
+# 3-Omega Sensor Calibrations File
+# By Sean Lubner
+
+# Format:
+# NAME: name of sensor
+# RTFIT: coefficients of fit to electrical resistance vs temperature (typically linear), starting with coefficient of highest power [Ohms, K]
+# KTFIT: coefficients of fit to thermal conductivity vs temperature (typically linear), starting with coefficient of highest power [W/m^2*K, K]
+# LENGTH: length of heater line [m]
+# WIDTH: width of heater line [m]
+# THICKNESS: thickness of heater line [m]
+# INFO: any other relevant info associated with that sensor, such as material, date created, use history, unique features, etc.
+
+######################### Sensor Data #########################
+NAME: Sensor D2 Yellow
+RTFIT: 0.034525373 10.54981202
+KTFIT: 4.31633E-06 -4.67418E-05 0.004670101 1.068087639
+LENGTH: 2e-3
+WIDTH: 20e-6
+THICKNESS: 200e-9
+INFO: Calibrated with 18.72 mA current, from -30 to 20 degrees C, and at 13 Hz from 5 to 25 mA current. Calibration file: SensGreen_Calibration.xlsx
+
+NAME: Sensor D2 Green
+RTFIT: 0.028771244 8.772889927
+KTFIT: 5.98712E-06 -7.3966E-05 0.003775401 1.089192319
+LENGTH: 2e-3
+WIDTH: 25e-6
+THICKNESS: 200e-9
+INFO: Calibrated with 18.72 mA current, from -30 to 20 degrees C, and at 13 Hz from 5 to 25 mA current. Calibration file: SensGreen_Calibration.xlsx
+
+NAME: Sensor 7
+RTFIT: 0.019140812 5.088846367
+KTFIT: 0.007040055 1.219300728
+LENGTH: 1.5e-3
+WIDTH: 30e-6
+THICKNESS: 200e-9
+INFO: Calibrated with 18.72 mA current, from -8 to 30 degrees C, and at 13 Hz from 5 to 25 mA current. Calibration file: Sensor_7_Calibration.xlsx
+
+NAME: Sensor 6 Old
+RTFIT: 0.019947376 6.061030829
+KTFIT: 0.005640950 1.117364402
+LENGTH: 1.5e-3
+WIDTH: 25e-6
+THICKNESS: 200e-9
+INFO: Calibrated with 20 mA current, from -13 to 20 degrees C, and at 13 Hz from 6 to 24 mA current. Calibration file: Sensor_6_Calibration_old.xlsx
+
+NAME: Sensor 6
+RTFIT: 0.019291859 5.980963159
+KTFIT: 0.004853405 1.058141983
+LENGTH: 1.5e-3
+WIDTH: 25e-6
+THICKNESS: 200e-9
+INFO: Calibrated with 20 mA current, from -40 to 20 degrees C, and at 13 Hz from 9 to 25 mA current. Calibration file: Sensor_6_Calibration_02.xlsx
+
+NAME: Sensor 6 B
+RTFIT: 0.019291859 5.980963159
+KTFIT: 0.000000216 0.000036854 0.003931317 1.056283760
+LENGTH: 1.5e-3
+WIDTH: 25e-6
+THICKNESS: 200e-9
+INFO: Calibrated with 30 mA current, from -110 to 30 degrees C, and at 13 Hz from 9 to 25 mA current. Calibration file: Sensor_6_Calibration_03.xlsx
+
+
+NAME: Sensor 5
+RTFIT: 0.026308597 7.518309275
+KTFIT: 0.005913115 1.196877604
+LENGTH: 1.5e-3
+WIDTH: 20e-6
+THICKNESS: 200e-9
+INFO: Calibrated with 20 mA current, from -13 to 20 degrees C, and at 13 Hz from 6 to 24 mA current. Calibration file: Sensor_5_Calibration.xlsx
+
+NAME: Sensor 2 Old
+RTFIT: 0.013073056 3.987502293
+KTFIT: 0.006048934 1.129079419
+LENGTH: 2e-3
+WIDTH: 70e-6
+THICKNESS: 200e-9
+INFO: Old 2012 sensor used for ice (and possibly other?) data analysis. Goes with file: Proper_Sensor2_Clibration.xlsx
+
+NAME: Sensor 2b Old
+RTFIT: 0.01875013 6.059152712
+KTFIT: 0.004393417 1.042229922
+LENGTH: 1.5e-3
+WIDTH: 25e-6
+THICKNESS: 200e-9
+INFO: Calibrated with 20 mA current, from 17 to 43 degrees C, and at 13 Hz from 5.6 to 16 mA current. Calibration file: Proper_Sensor2b_data.xlsx
+
+
+NAME: Liver Sensor 3
+# RTFIT: 0.022425026 7.181530567  (this was the old fit value)
+RTFIT: 0.025725287 7.800173031
+KTFIT: 0.005112411 1.088261241
+LENGTH: 1.5e-3
+WIDTH: 20e-6
+THICKNESS: 200e-9
+INFO: Calibrated with 20 mA current, from 17 to 48 degrees C, and at 13 Hz from 10 to 30 mA current. Calibration file: Sensor 3 2013 Calibration.xlsx
+
+NAME: Liver Sensor 4
+RTFIT: 0.017578493 5.776615866
+KTFIT: 0.004986367 1.114705118
+LENGTH: 1.5e-3
+WIDTH: 25e-6
+THICKNESS: 200e-9
+INFO: Calibrated with 20 mA of current, from 15 to 47 degrees C, and at 13 Hz from 10 to 30 mA current. Calibration file: Sensor 4 2013 Calibration.xlsx
+
+NAME: SiGe 2
+RTFIT: 0.015226281 5.449008107
+KTFIT: 0 0
+LENGTH: 1.5e-3
+WIDTH: 80e-6
+THICKNESS: 200e-9
+INFO: SiGe sample, calibration file: SiGe_Results.xlsx
+
+NAME: SiGe 1
+RTFIT: 0.013011948 5.372445073
+KTFIT: 0 0
+LENGTH: 1.5e-3
+WIDTH: 80e-6
+THICKNESS: 200e-9
+INFO: BAD DO NOT USE! SiGe sample, calibration file: SiGe_Results.xlsx
+
+# NAME: Joonki Ref Sample
+# RTFIT: 0.09174 44.31129
+# KTFIT: 0.005378631 1.127702121
+# LENGTH: 3e-3
+# WIDTH: 
+# THICKNESS: 200e-9
+# INFO: The reference BiTe sample that has not yet been irradiated.
